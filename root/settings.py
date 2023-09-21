@@ -19,7 +19,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 env = Env()
 env.read_env()
 
-SECRET_KEY = 'django-insecure-jdh+*__0lc&%d+xw=hw(%=@wn(gc_f99-hkx615-+rc!j4ddcs' # env.str('SECRET_KEY')
+# env.str('SECRET_KEY')
+SECRET_KEY = 'django-insecure-jdh+*__0lc&%d+xw=hw(%=@wn(gc_f99-hkx615-+rc!j4ddcs'
 
 DEBUG = env.bool('DEBUG', default=False)
 
@@ -37,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'insta_app',
-    'users',
+    'home',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -117,12 +118,18 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+if DEBUG:
+    STATICFILES_DIRS = [
+        BASE_DIR / 'static'
+    ]
+else:
+    STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'api.User'
