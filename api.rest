@@ -1,16 +1,13 @@
-POST http://127.0.0.1:8000/signup/ 
-Content-Type: application/json
+POST http://127.0.0.1:8000/signup/ Content-Type: application/json
 
 { "username": "msms", "password": "qwertyuiop789!", "email": "qwertyuiop789!" }
 
 
 ###
-POST http://127.0.0.1:8000/login 
-Content-Type: application/json
+POST http://127.0.0.1:8000/login Content-Type: application/json
 
 { "username": "msms", "password": "qwertyuiop789!" }
 
 ###
 
-GET http://127.0.0.1:8000/test_token 
-Content-Type: application/json Authorization: token xxx
+GET http://127.0.0.1:8000/test_token Content-Type: application/json Authorization: token xxx
