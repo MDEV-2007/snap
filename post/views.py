@@ -6,7 +6,7 @@ from .serializers import *
 
 class PostListApiView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [AllowAny],
+    permission_classes = [IsAuthenticatedOrReadOnly]
 
     def get_queryset(self):
         return Post.objects.all()

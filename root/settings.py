@@ -22,7 +22,7 @@ env.read_env()
 # env.str('SECRET_KEY')
 SECRET_KEY = 'django-insecure-jdh+*__0lc&%d+xw=hw(%=@wn(gc_f99-hkx615-+rc!j4ddcs'
 
-DEBUG = env.bool('DEBUG', default=False)
+DEBUG = env.bool('DEBUG', default=True)
 
 ALLOWED_HOSTS = ['*']
 
