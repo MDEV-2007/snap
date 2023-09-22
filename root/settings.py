@@ -36,10 +36,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    ## tashqi applar
     'rest_framework',
     'rest_framework.authtoken',
+
+    ## ichki applar
     'api',
     'home',
+    'post',
 ]
 
 MIDDLEWARE = [
