@@ -74,23 +74,23 @@ class CommentSerializer(serializers.ModelSerializer):
             
             ]
 
-        def get_replies(self,obj):
-            if obj.child.exists():
-                serializers = self.__class__(obj.child.all(), many=True, context=self.context)
-                return serializers.data
-            else:
-                return None
+    def get_replies(self,obj):
+        if obj.child.exists():
+            serializers = self.__class__(obj.child.all(), many=True, context=self.context)
+            return serializers.data
+        else:
+            return None
         
-        def get_me_liked(self,obj):
-            user = self.context.get('request').user
-            if user.is_authenticated:
-                return obj.like.filter(author=user).exists()
-            else:
-                return False
+    def get_me_liked(self,obj):
+        user = self.context.get('request').user
+        if user.is_authenticated:
+            return obj.likes.filter(author=user).exists()
+        else:
+            return False
         
-        @staticmethod
-        def get_likes_count(self, obj):
-            return obj.like.count()
+    
+    def get_likes_count(self, obj):
+        return obj.likes.count()
 
 
 class CommentLikeSerializer(serializers.ModelSerializer):
