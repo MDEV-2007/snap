@@ -1,0 +1,28 @@
+{
+    "id": "340cb48e-8262-4a46-a3b2-1fadb927532c",
+    "author": {
+      "id": 1,
+      "username": "admin",
+      "avatar": "http://0.0.0.0:8000/media/avatar/Screenshot_from_2023-09-16_18-56-14_ghqf0Rb.png"
+    },
+    "image": "http://0.0.0.0:8000/media/post_image/Frame_31.png",
+    "caption": "caption",
+    "published_time": "2023-09-22",
+    "comments": [
+      {
+        "author": {
+          "id": 1,
+          "username": "admin",
+          "avatar": "http://0.0.0.0:8000/media/avatar/Screenshot_from_2023-09-16_18-56-14_ghqf0Rb.png"
+        },
+        "comment": "lorem ipsum this is comment"
+      }
+    ],
+    "likes": [
+      {
+        "id": 1,
+        "username": "admin",
+        "avatar": "http://0.0.0.0:8000/media/avatar/Screenshot_from_2023-09-16_18-56-14_ghqf0Rb.png"
+      }
+    ]
+  }
