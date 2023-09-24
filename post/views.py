@@ -9,7 +9,7 @@ from rest_framework import status
 
 class PostListApiView(generics.ListAPIView):
     serializer_class = PostSerializer
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Post.objects.all()
