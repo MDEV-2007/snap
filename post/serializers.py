@@ -20,11 +20,10 @@ class PostSerializer(serializers.ModelSerializer):
             'published_time',
             'comments',
             'likes',
-            # 'get_post'
         ]
 
     def get_likes(self, obj):
-        serializer = PostSerializer(obj.likes.all(), many=True)
+        serializer = PostLikeSerializer(obj.likes.all(), many=True)
 
         return serializer.data
 
@@ -37,9 +36,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
     id = serializers.UUIDField(read_only=True)
     author = UserSerializer(read_only=True)
-    replies = serializers.SerializerMethodField('get_replies')
-    me_liked = serializers.SerializerMethodField('get_me_liked')
-    likes_count = serializers.SerializerMethodField('get_likes_count')
 
     class Meta:
         model = PostComment
@@ -49,29 +45,7 @@ class CommentSerializer(serializers.ModelSerializer):
             'comment',
             'parent',
             'published_time',
-            'replies',
-            'likes_count',
-            'me_liked'
         ]
-
-    def get_replies(self, obj):
-        if obj.child.exists():
-            serializers = self.__class__(
-                obj.child.all(), many=True, context=self.context)
-            return serializers.data
-        else:
-            return None
-
-    def get_me_liked(self, obj):
-        user = self.context.get('request').user
-        if user.is_authenticated:
-            return obj.likes.filter(author=user).exists()
-        else:
-            return False
-
-    def get_likes_count(self, obj):
-        return obj.likes.count()
-
 
 class CommentLikeSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
@@ -94,4 +68,5 @@ class PostLikeSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'author',
-            'post']
+            'post'
+        ]

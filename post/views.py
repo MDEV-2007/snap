@@ -1,18 +1,21 @@
 from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny,IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny, IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, TokenAuthentication
+
 from .models import *
 from .serializers import *
 from rest_framework.response import Response
 from rest_framework import status
 
 
-
 class PostListApiView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
         return Post.objects.all()
+
 
 class PostCreateApiView(generics.CreateAPIView):
     serializer_class = PostSerializer
@@ -20,6 +23,7 @@ class PostCreateApiView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
 
 class PostRetriveUpdateApiView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
@@ -47,7 +51,7 @@ class PostRetriveUpdateApiView(generics.RetrieveUpdateDestroyAPIView):
             {
                 "success": True,
                 "code": status.HTTP_204_NO_CONTENT,
-                "message": "Post successfully delete",            }
+                "message": "Post successfully delete", }
         )
 
 
@@ -55,13 +59,7 @@ class PostCommentListView(generics.ListAPIView):
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-
     def get_queryset(self):
-        post_id =  self.kwargs.get('pk')
+        post_id = self.kwargs.get('pk')
         queryset = PostComment.objects.filter(post__id=post_id)
         return queryset
-
-
-
-        
-
