@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 
+
 class PostListApiView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticated]

@@ -10,6 +10,25 @@ from .models import User
 from .serializers import UserSerializer
 
 
+
+### Check User
+
+
+# @api_view(['GET'])
+# def check_user(request):
+#     serializer = UserSerializer(request.user)
+#     return Response(serializer.data)
+
+
+@api_view(['GET'])
+def check_user(request):
+    username = request.GET['username']
+
+    if User.objects.filter(username=username).exists():
+      return Response(status=200)
+    return Response(status=400)
+
+
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data=request.data)
