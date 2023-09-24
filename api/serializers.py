@@ -1,5 +1,9 @@
 from rest_framework import serializers
+<<<<<<< HEAD
 from .models import User, Follow
+=======
+from .models import User
+>>>>>>> a234a2f (murodulla)
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -14,8 +18,13 @@ class UserSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
 
+<<<<<<< HEAD
 class FollowSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Follow
         fields = ['id', 'created', 'following', 'follower']
+=======
+
+
+>>>>>>> a234a2f (murodulla)
