@@ -10,29 +10,6 @@ from .models import User
 from .serializers import UserSerializer
 
 
-
-
-
-
-
-### Check User
-
-
-# @api_view(['GET'])
-# def check_user(request):
-#     serializer = UserSerializer(request.user)
-#     return Response(serializer.data)
-
-
-@api_view(['GET'])
-def check_user(request):
-    username = request.GET['username']
-
-    if User.objects.filter(username=username).exists():
-      return Response(status=200)
-    return Response(status=400)
-
-
 @api_view(['POST'])
 def signup(request):
     serializer = UserSerializer(data=request.data)
@@ -51,14 +28,16 @@ def login(request):
     user = get_object_or_404(User, username=request.data['username'])
     if not user.check_password(request.data['password']):
         return Response("missing user", status=status.HTTP_404_NOT_FOUND)
-    
+
     token, created = Token.objects.get_or_create(user=user)
     serializer = UserSerializer(user)
     return Response({'token': token.key, 'user': serializer.data})
 
 
 @api_view(['GET'])
-@authentication_classes([SessionAuthentication, TokenAuthentication])
-@permission_classes([IsAuthenticated])
-def test_token(request):
-    return Response("passed!")
+def check_user(request):
+    username = request.GET['username']
+
+    if User.objects.filter(username=username).exists():
+        return Response(status=200)
+    return Response(status=400)
