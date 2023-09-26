@@ -9,7 +9,8 @@ class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     likes = serializers.SerializerMethodField('get_likes')
     comments = serializers.SerializerMethodField('get_comments')
-
+    image_size = serializers.SerializerMethodField('get_image_size')
+    
     class Meta:
         model = Post
         fields = [
@@ -20,6 +21,7 @@ class PostSerializer(serializers.ModelSerializer):
             'published_time',
             'comments',
             'likes',
+            'image_size',
         ]
 
     def get_likes(self, obj):
@@ -31,6 +33,11 @@ class PostSerializer(serializers.ModelSerializer):
         serializer = CommentSerializer(obj.comments.all(), many=True)
         return serializer.data
 
+    def get_image_size(self, obj: Post):
+        return {
+            'width': obj.image.width,
+            'height': obj.image.height
+        }
 
 class CommentSerializer(serializers.ModelSerializer):
 
