@@ -10,7 +10,7 @@ class PostSerializer(serializers.ModelSerializer):
     likes = serializers.SerializerMethodField('get_likes')
     comments = serializers.SerializerMethodField('get_comments')
     image_size = serializers.SerializerMethodField('get_image_size')
-    
+
     class Meta:
         model = Post
         fields = [
@@ -39,20 +39,35 @@ class PostSerializer(serializers.ModelSerializer):
             'height': obj.image.height
         }
 
+
 class CommentSerializer(serializers.ModelSerializer):
 
     id = serializers.UUIDField(read_only=True)
     author = UserSerializer(read_only=True)
+    post_id = serializers.UUIDField()
+    parent = serializers.ReadOnlyField()
 
     class Meta:
         model = PostComment
         fields = [
             'id',
+            'post_id',
             'author',
             'comment',
             'parent',
             'published_time',
         ]
+
+    def validate(self, attrs):
+        try:
+            post_id = attrs.get('post_id')
+            post = Post.objects.get(id=post_id)
+            attrs['post'] = post
+        except Post.DoesNotExist:
+            raise serializers.ValidationError('Post does not exist')
+
+        return super().validate(attrs)
+
 
 class CommentLikeSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
@@ -63,7 +78,8 @@ class CommentLikeSerializer(serializers.ModelSerializer):
         fields = [
             'id',
             'author',
-            'comment']
+            'comment'
+        ]
 
 
 class PostLikeSerializer(serializers.ModelSerializer):

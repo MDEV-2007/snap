@@ -5,6 +5,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import JSONParser
 
+from rest_framework.decorators import api_view, APIView, permission_classes, authentication_classes
+
 from .models import *
 from .serializers import *
 
@@ -66,3 +68,50 @@ class PostCommentListView(generics.ListAPIView):
         post_id = self.kwargs.get('pk')
         queryset = PostComment.objects.filter(post__id=post_id)
         return queryset
+
+
+class PostCommentCreateApiView(APIView):
+    serializer_class = CommentSerializer
+    permission_classes = [IsAuthenticated, ]
+    authentication_classes = [TokenAuthentication, SessionAuthentication]
+
+    # def perform_create(self, serializer):
+    #     serializer.save(author=self.request.user)
+
+    def post(self, request, *args, **kwargs):
+        print(request.data)
+        data = self.serializer_class(data=request.data)
+
+        if data.is_valid():
+            data.save(author=self.request.user)
+            return Response(data.data)
+
+        print(data.error_messages)
+        print(data.errors)
+
+        return Response(data.errors)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def add_like(request, *args, **kwargs):
+
+    try:
+        post_id = request.data.get('post-id')
+        post = Post.objects.get(id=post_id)
+        like = PostLike.objects.filter(author=request.user, post=post)
+
+        if like.exists():
+            like[0].delete()
+
+        else:
+            like = PostLike.objects.create(
+                author=request.user,
+                post=post,
+            )
+
+        return Response(status=200)
+
+    except Exception as e:
+        return Response({'error': str(e).strip()}, status=404)

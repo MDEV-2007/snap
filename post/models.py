@@ -23,6 +23,9 @@ class Post(models.Model):
         verbose_name = 'post'
         verbose_name_plural = 'posts'
 
+    def __str__(self) -> str:
+        return self.caption[:50]
+
 
 class PostComment(models.Model):
     id = models.UUIDField(
@@ -43,6 +46,8 @@ class PostComment(models.Model):
     )
     published_time = models.DateField(auto_now_add=True)
 
+    def __str__(self) -> str:
+        return self.comment[:50]
 
 class PostLike(models.Model):
     id = models.UUIDField(
@@ -78,4 +83,3 @@ class CommentLike(models.Model):
             name="my_constraint",
         )
     ]
-
