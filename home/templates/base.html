@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hello Snap</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+
+<body>
+    
+    <div class="section">
+      <div class="column">
+        <div class="navbar">
+            <div class="InstaZam">
+                <h1>InstaZam</h1>
+            </div>
+            <ul>
+                <li><a href="{% url 'home' %}"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="{% url 'search' %}"><i class="fa-solid fa-magnifying-glass"></i> Search</a></li>
+                <li><a href="{% url 'explore' %}"><i class="fa-sharp fa-solid fa-compass"></i> Explore</a></li>
+                <li><a href="{% url  'reels' %}"><i class="fa-solid fa-circle-play"></i> Reels</a></li>
+                <li><a href="{% url 'notification' %}"><i class="fa-solid fa-bell"></i> Notification</a></li>
+                <li><a href="{% url 'messages' %}"><i class="fa-solid fa-message"></i> Message</a></li>
+                <li><a href="{% url 'create' %}"><i class="fa-solid fa-plus"></i> Create</a></li>
+                <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i> Profile</a></li>
+            </ul>
+            <div class="profile-settings">
+                
+            </div>
+        </div>
+        <div class="rigth-side">
+            {% block content %}
+            {% endblock %}
+        </div>
+      </div>
+    </div>
+
+    
+</body>
+
+</html>
