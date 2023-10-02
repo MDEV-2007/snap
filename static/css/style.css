@@ -4,6 +4,10 @@
     list-style: none;
     text-decoration: none;
     box-sizing: border-box;
+
+    color: white;
+}
+body{
     background-color: black;
 }
 
@@ -13,16 +17,18 @@
 }
 
 .rigth-side{
-    margin-left: 450px;
+    margin-left: 330px;
     color: white;
+    
+
 }
 
 .navbar{
+    padding-top: 30px;
     color: white;
-    margin-top: 30px;
     padding-left: 50px;
     position: fixed;
-    width: 400px;
+    width: 330px;
     height: 100vh;
     border-right: 1px solid rgb(153, 150, 150);
 }
