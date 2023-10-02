@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     avatar = models.ImageField(upload_to='avatar/', default='../static/images/default.jpg')
+    veryfind = models.BooleanField()
 
     def __str__(self):
         return self.username
