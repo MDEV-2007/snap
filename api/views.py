@@ -41,3 +41,11 @@ def check_user(request):
     if User.objects.filter(username=username).exists():
         return Response(status=200)
     return Response(status=400)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_me(request):
+    serializer = UserSerializer(request.user, many=False)
+    return Response(serializer.data)

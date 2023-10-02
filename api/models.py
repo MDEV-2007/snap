@@ -12,33 +12,29 @@ class User(AbstractUser):
 
 
 class Follow(models.Model):
-    follower = models.ForeignKey(
+    user = models.ForeignKey(
+        User, related_name='following', on_delete=models.CASCADE)
+    follow = models.ForeignKey(
         User, related_name='follower', on_delete=models.CASCADE)
-    followed = models.ForeignKey(
-        User, related_name='followed', on_delete=models.CASCADE)
+
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ('-date',)
 
     def __str__(self):
-        return f'{self.follower} follow {self.followed}'
+        return f'{self.follow} => {self.user}'
 
-    @staticmethod
-    def follow(from_user, to_user):
-        Follow(follower=from_user,
-               followed=to_user).save()
+    # @staticmethod
+    # def unfollow(from_user, to_user):
+    #     f = Follow.objects.filter(follower=from_user, followed=to_user).all()
+    #     if f:
+    #         f.delete()
 
-    @staticmethod
-    def unfollow(from_user, to_user):
-        f = Follow.objects.filter(follower=from_user, followed=to_user).all()
-        if f:
-            f.delete()
-
-    @staticmethod
-    def user_followed(from_user):
-        followeders = Follow.objects.filter(follower=from_user).all()
-        user_followed = []
-        for followeder in followeders:
-            user_followed.append(followeder.followed)
-        return user_followed
+    # @staticmethod
+    # def user_followed(from_user):
+    #     followeders = Follow.objects.filter(follower=from_user).all()
+    #     user_followed = []
+    #     for followeder in followeders:
+    #         user_followed.append(followeder.followed)
+    #     return user_followed
