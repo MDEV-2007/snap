@@ -6,7 +6,7 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 from rest_framework.authtoken.models import Token
-from .models import User
+from .models import User, Follow
 from .serializers import UserSerializer
 
 
@@ -49,3 +49,44 @@ def check_user(request):
 def get_me(request):
     serializer = UserSerializer(request.user, many=False)
     return Response(serializer.data)
+
+
+@api_view(['GET'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_user(request):
+    pk = request.GET.get('user-id')
+
+    user = User.objects.get(pk=pk)
+
+    serializer = UserSerializer(user, many=False)
+
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@authentication_classes([SessionAuthentication, TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def follow(request, *args, **kwargs):
+
+    try:
+        user_id = request.data.get('user-id')
+        user = User.objects.get(id=user_id)
+
+        follow = Follow.objects.filter(follow=request.user, user=user)
+
+        if follow.exists():
+            follow[0].delete()
+
+        else:
+            follow = Follow.objects.create(
+                user=user,
+                follow=request.user,
+            )
+
+        return Response(status=200)
+
+    except Exception as e:
+        print(e)
+
+        return Response({'error': str(e).strip()}, status=404)
