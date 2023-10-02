@@ -1,18 +1,21 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
+
 class User(AbstractUser):
-    avatar = models.ImageField(upload_to='avatar/', default='../static/images/default.jpg')
-    veryfind = models.BooleanField()
+    avatar = models.ImageField(
+        upload_to='avatar/', default='../static/images/default.jpg')
+    verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.username
 
 
-
 class Follow(models.Model):
-    follower = models.ForeignKey(User, related_name='follower', on_delete=models.CASCADE)
-    followed = models.ForeignKey(User, related_name='followed', on_delete=models.CASCADE)
+    follower = models.ForeignKey(
+        User, related_name='follower', on_delete=models.CASCADE)
+    followed = models.ForeignKey(
+        User, related_name='followed', on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -39,5 +42,3 @@ class Follow(models.Model):
         for followeder in followeders:
             user_followed.append(followeder.followed)
         return user_followed
-
-    
